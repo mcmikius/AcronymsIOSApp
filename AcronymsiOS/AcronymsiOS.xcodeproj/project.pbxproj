@@ -28,6 +28,7 @@
 		D2A5F2091F4A9144005CD714 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2A5F2071F4A9144005CD714 /* Main.storyboard */; };
 		D2A5F20B1F4A9144005CD714 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D2A5F20A1F4A9144005CD714 /* Assets.xcassets */; };
 		D2A5F2211F4A96D0005CD714 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A5F2201F4A96D0005CD714 /* AppDelegate.swift */; };
+		F31C3A9E240FB462008C73D2 /* CreateUserTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31C3A9D240FB462008C73D2 /* CreateUserTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		D2A5F20A1F4A9144005CD714 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D2A5F20F1F4A9144005CD714 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D2A5F2201F4A96D0005CD714 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		F31C3A9D240FB462008C73D2 /* CreateUserTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 			children = (
 				233638922062B99A001588B0 /* AcronymsTableViewController.swift */,
 				23FBBD832066980600DBFA59 /* UsersTableViewController.swift */,
+				F31C3A9D240FB462008C73D2 /* CreateUserTableViewController.swift */,
 				23FBBD852066982500DBFA59 /* CategoriesTableViewController.swift */,
 				23FBBD922066A67000DBFA59 /* CreateCategoryTableViewController.swift */,
 				23FBBD962066ADCB00DBFA59 /* AcronymsDetailTableViewController.swift */,
@@ -229,6 +232,7 @@
 				233638932062B99A001588B0 /* AcronymsTableViewController.swift in Sources */,
 				23FBBD842066980600DBFA59 /* UsersTableViewController.swift in Sources */,
 				23FBBF792067271400DBFA59 /* AcronymRequest.swift in Sources */,
+				F31C3A9E240FB462008C73D2 /* CreateUserTableViewController.swift in Sources */,
 				23FBBD862066982500DBFA59 /* CategoriesTableViewController.swift in Sources */,
 				23FBBF772066C99A00DBFA59 /* ResourceRequest.swift in Sources */,
 				231233E72083955F00C6E922 /* LoginTableViewController.swift in Sources */,
