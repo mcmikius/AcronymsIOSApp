@@ -1,4 +1,5 @@
 
+
 import UIKit
 
 class UsersTableViewController: UITableViewController {
@@ -18,32 +19,24 @@ class UsersTableViewController: UITableViewController {
     refresh(nil)
   }
 
-  func refresh() {
-    if refreshControl != nil {
-      refreshControl?.beginRefreshing()
-    }
-    refresh(refreshControl)
-  }
-
+  // MARK: - IBActions
   @IBAction func refresh(_ sender: UIRefreshControl?) {
     usersRequest.getAll { [weak self] result in
       DispatchQueue.main.async {
         sender?.endRefreshing()
       }
+
       switch result {
       case .failure:
         ErrorPresenter.showError(message: "There was an error getting the users", on: self)
       case .success(let users):
         DispatchQueue.main.async { [weak self] in
-          self?.users = users
-          self?.tableView.reloadData()
+          guard let self = self else { return }
+          self.users = users
+          self.tableView.reloadData()
         }
       }
     }
-  }
-
-  @IBAction func logoutTapped(_ sender: UIBarButtonItem) {
-    Auth().logout()
   }
 }
 

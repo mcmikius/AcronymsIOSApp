@@ -5,7 +5,6 @@ import UIKit
 class CategoriesTableViewController: UITableViewController {
 
   // MARK: - Properties
-
   var categories: [Category] = []
   let categoriesRequest = ResourceRequest<Category>(resourcePath: "categories")
 
@@ -20,25 +19,22 @@ class CategoriesTableViewController: UITableViewController {
     refresh(nil)
   }
 
-  func refresh() {
-    if refreshControl != nil {
-      refreshControl?.beginRefreshing()
-    }
-    refresh(refreshControl)
-  }
-
+  // MARK: - IBActions
   @IBAction func refresh(_ sender: UIRefreshControl?) {
     categoriesRequest.getAll { [weak self] result in
       DispatchQueue.main.async {
         sender?.endRefreshing()
       }
+
       switch result {
       case .failure:
-        ErrorPresenter.showError(message: "There was an error getting the categories", on: self)
+        let message = "There was an error getting the categories"
+        ErrorPresenter.showError(message: message, on: self)
       case .success(let categories):
         DispatchQueue.main.async { [weak self] in
-          self?.categories = categories
-          self?.tableView.reloadData()
+          guard let self = self else { return }
+          self.categories = categories
+          self.tableView.reloadData()
         }
       }
     }

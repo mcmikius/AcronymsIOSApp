@@ -37,38 +37,11 @@ class AcronymDetailTableViewController: UITableViewController {
 
   // MARK: - Navigation
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if segue.identifier == "AddToCategorySegue" {
-      guard let destination = segue.destination as? AddToCategoryTableViewController else {
-        return
-      }
-      destination.acronym = acronym
-      destination.selectedCategories = categories
-    }
+
   }
 
   func getAcronymData() {
-    guard let id = acronym?.id else {
-      return
-    }
 
-    let acronymDetailRequester = AcronymRequest(acronymID: id)
-    acronymDetailRequester.getUser { [weak self] result in
-      switch result {
-      case .success(let user):
-        self?.user = user
-      case .failure:
-        ErrorPresenter.showError(message: "There was an error getting the acronym's user", on: self)
-      }
-    }
-
-    acronymDetailRequester.getCategories { [weak self] result in
-      switch result {
-      case .success(let categories):
-        self?.categories = categories
-      case .failure:
-        ErrorPresenter.showError(message: "There was an error getting the acronym's categories", on: self)
-      }
-    }
   }
 
   func updateAcronymView() {
@@ -77,13 +50,17 @@ class AcronymDetailTableViewController: UITableViewController {
     }
   }
 
+  // MARK: - IBActions
+  @IBAction func updateAcronymDetails(_ segue: UIStoryboardSegue) {
+
+  }
 }
 
 // MARK: - UITableViewDataSource
 extension AcronymDetailTableViewController {
 
   override func numberOfSections(in tableView: UITableView) -> Int {
-    return 5
+    return 4
   }
 
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -92,8 +69,6 @@ extension AcronymDetailTableViewController {
 
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "AcronymDetailCell", for: indexPath)
-    cell.selectionStyle = .none
-    cell.isUserInteractionEnabled = false
     switch indexPath.section {
     case 0:
       cell.textLabel?.text = acronym?.short
@@ -103,14 +78,9 @@ extension AcronymDetailTableViewController {
       cell.textLabel?.text = user?.name
     case 3:
       cell.textLabel?.text = categories[indexPath.row].name
-    case 4:
-      cell.textLabel?.text = "Add To Category"
-      cell.selectionStyle = .default
-      cell.isUserInteractionEnabled = true
     default:
       break
     }
-
     return cell
   }
 

@@ -5,7 +5,6 @@ import UIKit
 class AcronymsTableViewController: UITableViewController {
 
   // MARK: - Properties
-
   var acronyms: [Acronym] = []
   let acronymsRequest = ResourceRequest<Acronym>(resourcePath: "acronyms")
 
@@ -20,13 +19,7 @@ class AcronymsTableViewController: UITableViewController {
     refresh(nil)
   }
 
-  func refresh() {
-    if refreshControl != nil {
-      refreshControl?.beginRefreshing()
-    }
-    refresh(refreshControl)
-  }
-
+  // MARK: - IBActions
   @IBAction func refresh(_ sender: UIRefreshControl?) {
     acronymsRequest.getAll { [weak self] acronymResult in
       DispatchQueue.main.async {
@@ -38,21 +31,11 @@ class AcronymsTableViewController: UITableViewController {
         ErrorPresenter.showError(message: "There was an error getting the acronyms", on: self)
       case .success(let acronyms):
         DispatchQueue.main.async { [weak self] in
-          self?.acronyms = acronyms
-          self?.tableView.reloadData()
+          guard let self = self else { return }
+          self.acronyms = acronyms
+          self.tableView.reloadData()
         }
       }
-    }
-  }
-
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if segue.identifier == "AcronymsToAcronymDetail" {
-      guard let destination = segue.destination as? AcronymDetailTableViewController,
-        let indexPath = tableView.indexPathForSelectedRow else {
-          return
-      }
-
-      destination.acronym = acronyms[indexPath.row]
     }
   }
 }
@@ -70,15 +53,5 @@ extension AcronymsTableViewController {
     cell.textLabel?.text = acronym.short
     cell.detailTextLabel?.text = acronym.long
     return cell
-  }
-
-  override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-    if let id = acronyms[indexPath.row].id {
-      let acronymDetailRequester = AcronymRequest(acronymID: id)
-      acronymDetailRequester.delete()
-    }
-
-    acronyms.remove(at: indexPath.row)
-    tableView.deleteRows(at: [indexPath], with: .automatic)
   }
 }
