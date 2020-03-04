@@ -18,6 +18,23 @@ class AcronymsTableViewController: UITableViewController {
     super.viewWillAppear(animated)
     refresh(nil)
   }
+  
+  // MARK: - Navigation
+  override func prepare(
+    for segue: UIStoryboardSegue,
+    sender: Any?
+  ) {
+    if segue.identifier == "AcronymsToAcronymDetail" {
+      guard
+        let destination =
+          segue.destination as? AcronymDetailTableViewController,
+        let indexPath = tableView.indexPathForSelectedRow
+        else {
+          return
+      }
+      destination.acronym = acronyms[indexPath.row]
+    }
+  }
 
   // MARK: - IBActions
   @IBAction func refresh(_ sender: UIRefreshControl?) {
