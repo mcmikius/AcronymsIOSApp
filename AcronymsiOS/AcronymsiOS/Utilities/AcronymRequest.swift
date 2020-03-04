@@ -7,6 +7,11 @@ enum AcronymUserRequestResult {
   case failure
 }
 
+enum CategoryAddResult {
+  case success
+  case failure
+}
+
 struct AcronymRequest {
   let resource: URL
   
@@ -99,4 +104,31 @@ struct AcronymRequest {
     let dataTask = URLSession.shared.dataTask(with: urlRequest)
     dataTask.resume()
   }
+  
+  func add(
+    category: Category,
+    completion: @escaping (CategoryAddResult) -> Void
+  ) {
+    guard let categoryID = category.id else {
+      completion(.failure)
+      return
+    }
+    let url = resource
+      .appendingPathComponent("categories")
+      .appendingPathComponent("\(categoryID)")
+    var urlRequest = URLRequest(url: url)
+      urlRequest.httpMethod = "POST"
+      let dataTask = URLSession.shared
+        .dataTask(with: urlRequest) { _, response, _ in
+          guard
+            let httpResponse = response as? HTTPURLResponse,
+            httpResponse.statusCode == 201
+            else {
+              completion(.failure)
+              return
+          }
+          completion(.success)
+      }
+      dataTask.resume()
+    }
 }
