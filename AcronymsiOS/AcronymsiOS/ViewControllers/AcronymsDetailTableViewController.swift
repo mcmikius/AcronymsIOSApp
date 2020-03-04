@@ -37,7 +37,15 @@ class AcronymDetailTableViewController: UITableViewController {
   
   // MARK: - Navigation
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    
+    if segue.identifier == "EditAcronymSegue" {
+      guard
+        let destination = segue.destination
+          as? CreateAcronymTableViewController else {
+        return
+      }
+      destination.selectedUser = user
+      destination.acronym = acronym
+    }
   }
   
   func getAcronymData() {
@@ -75,7 +83,13 @@ class AcronymDetailTableViewController: UITableViewController {
   
   // MARK: - IBActions
   @IBAction func updateAcronymDetails(_ segue: UIStoryboardSegue) {
-    
+    guard let controller = segue.source
+      as? CreateAcronymTableViewController else {
+      return
+    }
+
+    user = controller.selectedUser
+    acronym = controller.acronym
   }
 }
 
