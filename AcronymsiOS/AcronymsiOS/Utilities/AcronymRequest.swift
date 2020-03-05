@@ -43,12 +43,9 @@ struct AcronymRequest {
     dataTask.resume()
   }
   
-  func getCategories(
-    completion: @escaping (GetResourcesRequest<Category>) -> Void
-  ) {
+  func getCategories(completion: @escaping (GetResourcesRequest<Category>) -> Void) {
     let url = resource.appendingPathComponent("categories")
-    let dataTask = URLSession.shared
-      .dataTask(with: url) { data, _, _ in
+    let dataTask = URLSession.shared.dataTask(with: url) { data, _, _ in
         guard let jsonData = data else {
           completion(.failure)
           return
@@ -64,33 +61,35 @@ struct AcronymRequest {
     dataTask.resume()
   }
   
-  func update(
-    with updateData: Acronym,
-    completion: @escaping (SaveResult<Acronym>) -> Void
-  ) {
+  func update(with updateData: Acronym, completion: @escaping (SaveResult<Acronym>) -> Void) {
     do {
+      guard let token = Auth().token else {
+        Auth().logout()
+        return
+      }
       var urlRequest = URLRequest(url: resource)
       urlRequest.httpMethod = "PUT"
       urlRequest.httpBody = try JSONEncoder().encode(updateData)
-      urlRequest.addValue("application/json",
-                          forHTTPHeaderField: "Content-Type")
-      let dataTask = URLSession.shared
-        .dataTask(with: urlRequest) { data, response, _ in
-          guard
-            let httpResponse = response as? HTTPURLResponse,
-            httpResponse.statusCode == 200,
-            let jsonData = data
-            else {
-              completion(.failure)
-              return
+      urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
+      urlRequest.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+      let dataTask = URLSession.shared.dataTask(with: urlRequest) { data, response, _ in
+        guard let httpResponse = response as? HTTPURLResponse else {
+          completion(.failure)
+          return
+        }
+        guard httpResponse.statusCode == 200, let jsonData = data else {
+          if httpResponse.statusCode == 401 {
+            Auth().logout()
           }
-          do {
-            let acronym = try JSONDecoder()
-              .decode(Acronym.self, from: jsonData)
-            completion(.success(acronym))
-          } catch {
-            completion(.failure)
-          }
+          completion(.failure)
+          return
+        }
+        do {
+          let acronym = try JSONDecoder().decode(Acronym.self, from: jsonData)
+          completion(.success(acronym))
+        } catch {
+          completion(.failure)
+        }
       }
       dataTask.resume()
     } catch {
@@ -99,36 +98,44 @@ struct AcronymRequest {
   }
   
   func delete() {
+    guard let token = Auth().token else {
+      Auth().logout()
+      return
+    }
     var urlRequest = URLRequest(url: resource)
     urlRequest.httpMethod = "DELETE"
+    urlRequest.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
     let dataTask = URLSession.shared.dataTask(with: urlRequest)
     dataTask.resume()
   }
   
-  func add(
-    category: Category,
-    completion: @escaping (CategoryAddResult) -> Void
-  ) {
-    guard let categoryID = category.id else {
-      completion(.failure)
-      return
-    }
-    let url = resource
-      .appendingPathComponent("categories")
-      .appendingPathComponent("\(categoryID)")
-    var urlRequest = URLRequest(url: url)
-      urlRequest.httpMethod = "POST"
-      let dataTask = URLSession.shared
-        .dataTask(with: urlRequest) { _, response, _ in
-          guard
-            let httpResponse = response as? HTTPURLResponse,
-            httpResponse.statusCode == 201
-            else {
-              completion(.failure)
-              return
-          }
-          completion(.success)
-      }
-      dataTask.resume()
-    }
+  func add(category: Category, completion: @escaping (CategoryAddResult) -> Void) {
+     guard let categoryID = category.id else {
+         completion(.failure)
+         return
+       }
+       guard let token = Auth().token else {
+         Auth().logout()
+         return
+       }
+       let url = resource.appendingPathComponent("categories").appendingPathComponent("\(categoryID)")
+       var urlRequest = URLRequest(url: url)
+       urlRequest.httpMethod = "POST"
+       urlRequest.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+       let dataTask = URLSession.shared.dataTask(with: urlRequest) { _, response, _ in
+         guard let httpResponse = response as? HTTPURLResponse else {
+           completion(.failure)
+           return
+         }
+         guard httpResponse.statusCode == 201 else {
+           if httpResponse.statusCode == 401 {
+             Auth().logout()
+           }
+           completion(.failure)
+           return
+         }
+         completion(.success)
+       }
+       dataTask.resume()
+  }
 }
