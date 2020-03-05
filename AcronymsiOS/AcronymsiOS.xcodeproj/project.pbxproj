@@ -25,6 +25,10 @@
 		D2A5F2091F4A9144005CD714 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2A5F2071F4A9144005CD714 /* Main.storyboard */; };
 		D2A5F20B1F4A9144005CD714 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D2A5F20A1F4A9144005CD714 /* Assets.xcassets */; };
 		D2A5F2211F4A96D0005CD714 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A5F2201F4A96D0005CD714 /* AppDelegate.swift */; };
+		F30D9B1F24111DB0003B57E3 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30D9B1E24111DB0003B57E3 /* Auth.swift */; };
+		F30D9B2124111DDC003B57E3 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30D9B2024111DDC003B57E3 /* Token.swift */; };
+		F30D9B2324111E0D003B57E3 /* LoginTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30D9B2224111E0D003B57E3 /* LoginTableViewController.swift */; };
+		F30D9B2524111E1A003B57E3 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F30D9B2424111E1A003B57E3 /* Login.storyboard */; };
 		F38A7231240FC57E00233F1C /* AcronymRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38A7230240FC57E00233F1C /* AcronymRequest.swift */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +53,10 @@
 		D2A5F20A1F4A9144005CD714 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D2A5F20F1F4A9144005CD714 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D2A5F2201F4A96D0005CD714 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		F30D9B1E24111DB0003B57E3 /* Auth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
+		F30D9B2024111DDC003B57E3 /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
+		F30D9B2224111E0D003B57E3 /* LoginTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginTableViewController.swift; sourceTree = "<group>"; };
+		F30D9B2424111E1A003B57E3 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		F38A7230240FC57E00233F1C /* AcronymRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcronymRequest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -66,6 +74,7 @@
 		23FBBD8720669D1000DBFA59 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				F30D9B2024111DDC003B57E3 /* Token.swift */,
 				23FBBD8820669D1B00DBFA59 /* Acronym.swift */,
 				23FBBD8A20669D3300DBFA59 /* User.swift */,
 				23FBBD8C20669D4F00DBFA59 /* Category.swift */,
@@ -76,6 +85,7 @@
 		23FBBD8E20669D8A00DBFA59 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				F30D9B2224111E0D003B57E3 /* LoginTableViewController.swift */,
 				233638922062B99A001588B0 /* AcronymsTableViewController.swift */,
 				23FBBD832066980600DBFA59 /* UsersTableViewController.swift */,
 				23FBBD852066982500DBFA59 /* CategoriesTableViewController.swift */,
@@ -92,6 +102,7 @@
 		23FBBD8F20669D9A00DBFA59 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				F30D9B1E24111DB0003B57E3 /* Auth.swift */,
 				23FBBD9020669DAD00DBFA59 /* ErrorPresenter.swift */,
 				236A123C2079166A00931AD3 /* ResourceRequest.swift */,
 				F38A7230240FC57E00233F1C /* AcronymRequest.swift */,
@@ -131,6 +142,7 @@
 		D2A5F2021F4A9144005CD714 /* AcronymsiOS */ = {
 			isa = PBXGroup;
 			children = (
+				F30D9B2424111E1A003B57E3 /* Login.storyboard */,
 				D2A5F2071F4A9144005CD714 /* Main.storyboard */,
 				23FBBD8E20669D8A00DBFA59 /* ViewControllers */,
 				23FBBD8720669D1000DBFA59 /* Models */,
@@ -199,6 +211,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F30D9B2524111E1A003B57E3 /* Login.storyboard in Resources */,
 				D2A5F20B1F4A9144005CD714 /* Assets.xcassets in Resources */,
 				5C2901831F8F6DE700803663 /* LaunchScreen.storyboard in Resources */,
 				D2A5F2091F4A9144005CD714 /* Main.storyboard in Resources */,
@@ -214,12 +227,15 @@
 			files = (
 				D2A5F2211F4A96D0005CD714 /* AppDelegate.swift in Sources */,
 				F38A7231240FC57E00233F1C /* AcronymRequest.swift in Sources */,
+				F30D9B2324111E0D003B57E3 /* LoginTableViewController.swift in Sources */,
 				23FBBD952066A67B00DBFA59 /* CreateUserTableViewController.swift in Sources */,
 				23FBBD9120669DAD00DBFA59 /* ErrorPresenter.swift in Sources */,
 				23FBBD8920669D1B00DBFA59 /* Acronym.swift in Sources */,
 				23FBBD932066A67000DBFA59 /* CreateCategoryTableViewController.swift in Sources */,
 				23FBBD992066AE8F00DBFA59 /* CreateAcronymTableViewController.swift in Sources */,
+				F30D9B1F24111DB0003B57E3 /* Auth.swift in Sources */,
 				23FBBD8B20669D3300DBFA59 /* User.swift in Sources */,
+				F30D9B2124111DDC003B57E3 /* Token.swift in Sources */,
 				233638932062B99A001588B0 /* AcronymsTableViewController.swift in Sources */,
 				23FBBD9B2066AFAE00DBFA59 /* SelectUserTableViewController.swift in Sources */,
 				236A1243207BFBDD00931AD3 /* AddToCategoryTableViewController.swift in Sources */,
