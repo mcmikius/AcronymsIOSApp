@@ -7,6 +7,8 @@ class CreateUserTableViewController: UITableViewController {
   // MARK: - IBOutlets
   @IBOutlet weak var nameTextField: UITextField!
   @IBOutlet weak var usernameTextField: UITextField!
+  @IBOutlet weak var passwordTextField: UITextField!
+  @IBOutlet weak var emailTextField: UITextField!
 
   // MARK: - View Life Cycle
   override func viewDidLoad() {
@@ -30,17 +32,26 @@ class CreateUserTableViewController: UITableViewController {
         return
     }
 
-    let user = User(name: name, username: username)
-    ResourceRequest<User>(resourcePath: "users").save(user) { [weak self] result in
-        switch result {
-        case .failure:
-          let message = "There was a problem saving the user"
-          ErrorPresenter.showError(message: message, on: self)
-        case .success:
-          DispatchQueue.main.async { [weak self] in
-            self?.navigationController?.popViewController(animated: true)
-          }
+    guard let password = passwordTextField.text, !password.isEmpty else {
+      ErrorPresenter.showError(message: "You must specify a password", on: self)
+      return
+    }
+    
+    guard let email = emailTextField.text, !email.isEmpty else {
+      ErrorPresenter.showError(message: "You must specify an email", on: self)
+      return
+    }
+
+    let user = CreateUser(name: name, username: username, password: password, email: email)
+    ResourceRequest<CreateUser>(resourcePath: "users").save(user) { [weak self] result in
+      switch result {
+      case .failure:
+        ErrorPresenter.showError(message: "There was a problem saving the user", on: self)
+      case .success:
+        DispatchQueue.main.async { [weak self] in
+          self?.navigationController?.popViewController(animated: true)
         }
+      }
     }
   }
 }
